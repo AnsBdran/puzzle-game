@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+body {
+  @apply bg-indigo-700;
+}
+
+:root {
+  --transition-duration: 200ms;
+}
+
+img {
+  @apply border-2 border-white rounded-md ease-in;
+  /* display: block; */
+  width: 100%;
+  /* max-width: 100%;
+  max-height: 100%; */
+}
+
+.cards-wrapper {
+  @apply grid justify-items-center grid-cols-2 gap-4 p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5;
+}
+
+.card {
+  @apply relative;
+}
+
+/* The Image || Front of the card */
+
+.card .front {
+  transform: rotateY(90deg);
+  transition-duration: var(--transition-duration);
+  transition-delay: 0;
+  position: absolute;
+  inset: 0;
+  /* height: 100%; */
+  /* width: 100%; */
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  /* padding: 0; */
+  /* background-color: aqua; */
+  /* z-index: 222; */
+}
+
+.flipped .front {
+  transform: rotateY(0deg);
+  transition-delay: var(--transition-duration);
+}
+
+/* The Cover || back of the card */
+.card .back {
+  transition-duration: var(--transition-duration);
+  transition-delay: var(--transition-duration);
+}
+
+.flipped .back {
+  transform: rotateY(90deg);
+  transition-delay: 0ms;
+}
