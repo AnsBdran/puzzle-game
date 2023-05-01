@@ -1,51 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
 
 body {
-  @apply bg-gray-50;
+  @apply bg-gray-100 text-gray-100;
+  font-family: "Inter", sans-serif;
 }
 
-img {
-  @apply ease-in;
-  display: block;
-}
 :root {
   --transition-duration: 200ms;
 }
 
+input[type="radio"] {
+  @apply appearance-none w-4 h-4 bg-white checked:bg-blue-200 rounded-sm shadow-sm checked:shadow-2xl mr-2;
+}
 
 /* ============================================================================== */
 /* ============================================================================== */
 .app {
   /* why h-full didn't make .app take the full height of #root?! */
-  @apply grid content-start;
+  @apply grid min-h-screen;
   grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr
 }
 
 .header {
-  /* @apply; */
+  @apply bg-primary px-8 py-3;
   grid-column: 1/2;
+  height: max-content;
 }
 
 .sidebar {
-  @apply hidden md:block p-8 min-w-[16rem] lg:w-24 xl:w-[28rem] bg-gray-500 h-screen;
   grid-row: 1/3;
   grid-column: 2/3;
 }
 
 .cards-wrapper {
-  @apply p-4 grid content-start justify-start items-center gap-4 grid-cols-3 xs:grid-cols-4 sm:grid-cols-5 md:grid-cols-4 lg:grid-cols-5;
+  @apply p-4 grid justify-items-center content-center gap-4 grid-cols-3 xs:grid-cols-4 sm:grid-cols-5 md:grid-cols-4 lg:grid-cols-5;
   grid-column: 1/2;
 }
 
-
 .card {
-  @apply relative w-24 md:w-28 lg:w-36;
+  @apply relative w-24 md:w-28 lg:w-32 xl:w-36;
 }
 
 .card div {
-  @apply bg-gray-600 rounded-md  border-2  border-green-300;
+  @apply rounded-md  border-[3px] border-gray-800  bg-primary;
 }
 
 /* ============================================================================== */
@@ -56,7 +57,6 @@ img {
   transform: rotateY(90deg);
   transition-duration: var(--transition-duration);
   transition-delay: 0;
-  /* inset: 0; */
 }
 
 .flipped .front {

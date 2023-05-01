@@ -1,7 +1,7 @@
 const Header = () => {
   return (
-    <header className="header bg-gray-300 px-8">
-      <div className="bg-blue-100">header</div>
+    <header className="header">
+      <h1 className="font-semibold text-xl text-slate-700">Card Matching Puzzle</h1>
     </header>
   );
 };

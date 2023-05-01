@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import ImgCards from "../cards";
-import { shuffleCards, waait } from "../utils/helpers";
+import { shuffleCards } from "../utils/helpers";
 import Card from "./Card";
 import Sidebar from "./Sidebar";
-// import ModalWrapper from "./Modal";
+import Confetti from "react-confetti";
 
-const Dashboard = () => {
+const Dashboard = ({ gameLevel, resetGameLevel }) => {
   const [cards, setCards] = useState([]);
   const [firstCard, setFirstCard] = useState(null);
   const [secondCard, setSecondCard] = useState(null);
+  const [matchedNumber, setMatchedNumber] = useState(0);
   const [turns, setTurns] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [gameFinished, setGameFinished] = useState(false);
@@ -19,13 +19,14 @@ const Dashboard = () => {
     if (secondCard) {
       setDisabled(true);
       if (firstCard.imgUrl === secondCard.imgUrl) {
+        setMatchedNumber((prev) => prev + 2);
         setCards((prevCards) =>
-        prevCards.map((card) => {
-          console.log('inside set cards func')
-          if (card.imgUrl === firstCard.imgUrl) {
-            return { ...card, matched: true };
-          } else return card;
-        })
+          prevCards.map((card) => {
+            console.log("inside set cards func");
+            if (card.imgUrl === firstCard.imgUrl) {
+              return { ...card, matched: true };
+            } else return card;
+          })
         );
         resetTurn();
       } else {
@@ -34,36 +35,35 @@ const Dashboard = () => {
     }
     // check if the game finished
     if (checkWinning()) {
-      setGameFinished(true)
+      setGameFinished(true);
     }
   }, [secondCard]);
 
-
   useEffect(() => {
-    setCards(shuffleCards(ImgCards));
-    setGameFinished(false)
+    setCards(shuffleCards(gameLevel));
+    setGameFinished(false);
   }, []);
 
-  
   // restart the game
   const restartGame = () => {
-    setCards(shuffleCards(ImgCards));
+    setCards(shuffleCards(gameLevel));
     setGameFinished(false);
-    setDisabled(false)
+    setDisabled(false);
     setTurns(0);
     setFirstCard(null);
     setSecondCard(null);
+    setMatchedNumber(0);
   };
 
   // check for winning function
   const checkWinning = () => {
     const isEveryCardMatched = cards.every((card) => card.matched);
-    console.log('check winning ', isEveryCardMatched)
+    console.log("check winning ", isEveryCardMatched);
     return isEveryCardMatched;
   };
 
   // reset function
-  const resetTurn =  () => {
+  const resetTurn = () => {
     setFirstCard(null);
     setSecondCard(null);
     setTurns((prev) => prev + 1);
@@ -78,21 +78,36 @@ const Dashboard = () => {
 
   return (
     <>
-      <section className="cards-wrapper flex-1">
-        {cards &&
-          cards.map((card) => (
-            <Card
-              key={card.id}
-              card={card}
-              choiceHandler={handleChoice}
-              flipped={
-                card === firstCard || card === secondCard || card.matched
-              }
-              disabled={disabled}
-            />
-          ))}
-      </section>
-      <Sidebar turns={turns} restartGame={restartGame} didYouWin={gameFinished} />
+      {/* {startGame ? ( */}
+      <>
+        <section className="cards-wrapper flex-1">
+          {cards &&
+            cards.map((card) => (
+              <Card
+                key={card.id}
+                card={card}
+                choiceHandler={handleChoice}
+                flipped={
+                  card === firstCard || card === secondCard || card.matched
+                }
+                disabled={disabled}
+              />
+            ))}
+        </section>
+        <Sidebar
+          turns={turns}
+          restartGame={restartGame}
+          didYouWin={gameFinished}
+          matchedNumber={matchedNumber}
+          remainingNumber={cards.length - matchedNumber}
+          gameLevel={gameLevel}
+          resetGameLevel={resetGameLevel}
+        />
+      </>
+      {gameFinished && <Confetti width={window.innerWidth} height={window.innerHeight}/>}
+      {/* ) : ( */}
+      {/* <Intro /> */}
+      {/* )} */}
     </>
   );
 };
