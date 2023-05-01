@@ -12,7 +12,7 @@ const Sidebar = ({
 }) => {
   console.log("did you win?", didYouWin);
   return (
-    <section className="sidebar hidden md:block px-2 lg:px-4 xl:px-8 py-24 bg-primary min-h-screen">
+    <section className="sidebar hidden md:block px-2 lg:px-4 xl:px-8 pt-24 bg-primary min-h-screen">
       <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold bg-secondary text-gray-800 text-center py-3 px-4 rounded">
         Card Matching Puzzle
       </h2>
@@ -26,7 +26,7 @@ const Sidebar = ({
         <Button onClick={restartGame}>{didYouWin ? "Start a new" : "Restart the" } game</Button>
         <Button onClick={resetGameLevel}>Reset game level</Button>
       </div>
-      <footer className="text-center mt-12 text-gray-300">
+      <footer className="text-center mt-8 text-gray-300">
         <p>Made by: Anas Badran</p>
       </footer>
     </section>
