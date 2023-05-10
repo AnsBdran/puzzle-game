@@ -4,20 +4,13 @@ export default {
   theme: {
     extend: {
       screens: {
-        xs: "410px",
+        xs: "440px",
       },
-      // backgroundColor: {
-      //   primary: "#F2F3D9",
-      //   secondary: "#030027"
-      //   // card: "#B6EADA",
-      //   // sidebar: "#B6EADA",
-      //   // header: "#B6EADA"
-      // },
       colors: {
-        
-        primary: "#858AE3",
-        secondary: "#97DFFC"
-      }
+        primary: "#FFFDFD",
+        secondary: "#0B3C49",
+        // text: '#114B5F',
+      },
     },
   },
   plugins: [],

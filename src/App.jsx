@@ -11,25 +11,27 @@ function App() {
     setStartGame(true);
   };
 
-
   const handleLevelChange = (e) => setGameLevel(e.target.value);
 
   const handleResetGameLevel = () => {
-    setStartGame(false)
-  }
+    setStartGame(false);
+  };
+
   return (
     <>
       {startGame ? (
         <div className="app">
-          <Header />
-          <Dashboard gameLevel={gameLevel} resetGameLevel={handleResetGameLevel}/>
+          {/* <Header /> */}
+          <Dashboard
+            gameLevel={gameLevel}
+            resetGameLevel={handleResetGameLevel}
+          />
         </div>
       ) : (
         <Intro
           gameLevel={gameLevel}
           handleLevelChange={handleLevelChange}
           handleFormSubmit={startTheGame}
-          
         />
       )}
     </>

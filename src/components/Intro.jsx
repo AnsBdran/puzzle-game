@@ -11,9 +11,12 @@ const Intro = ({ handleFormSubmit, handleLevelChange, gameLevel }) => {
           value={level}
           onChange={handleLevelChange}
           checked={level == gameLevel}
-          className="peer"
+          className="peer cursor-pointer"
         />
-        <label htmlFor={level} className="capitalize peer-checked:text-white">
+        <label
+          htmlFor={level}
+          className="capitalize text-slate-500 hover:text-slate-600 peer-checked:text-slate-700 cursor-pointer"
+        >
           {level}
         </label>
       </div>
@@ -21,9 +24,11 @@ const Intro = ({ handleFormSubmit, handleLevelChange, gameLevel }) => {
   };
 
   return (
-    <main className="bg-primary h-screen flex justify-center items-center text-gray-200">
+    <main className="h-screen flex justify-center items-center px-2">
       <section>
-        <h1 className="text-4xl font-bold text-white mb-8">Card Memory Game</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center">
+          Card Memory Game
+        </h1>
         <form onSubmit={handleFormSubmit}>
           <label className="text-xl mb-2 block">Choose the game level</label>
           <LevelOption level="easy" />

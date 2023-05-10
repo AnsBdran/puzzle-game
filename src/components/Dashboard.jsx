@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { shuffleCards } from "../utils/helpers";
+import { getGameInfo, shuffleCards } from "../utils/helpers";
 import Card from "./Card";
 import Sidebar from "./Sidebar";
 import Confetti from "react-confetti";
+import Header from "./Header";
+// sound effects imports
+// import click from '../assets/sound-effects/click.mp3';
 
 const Dashboard = ({ gameLevel, resetGameLevel }) => {
   const [cards, setCards] = useState([]);
@@ -12,13 +15,20 @@ const Dashboard = ({ gameLevel, resetGameLevel }) => {
   const [turns, setTurns] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [gameFinished, setGameFinished] = useState(false);
-
-
+  const [cardsWrapperClass, setCardsWrapperClass] = useState(
+    getGameInfo(gameLevel).wrapperClass
+  );
+  // creating sound effect `Audio` objects
+  const [clickEffect] = useState(new Audio("/sound-effects/click.mp3"));
+  const [failEffect] = useState(new Audio("/sound-effects/fail.mp3"));
+  const [successEffect] = useState(new Audio("/sound-effects/right.mp3"));
   // check for card matching function
   useEffect(() => {
     if (secondCard) {
       setDisabled(true);
       if (firstCard.imgUrl === secondCard.imgUrl) {
+        clickEffect.pause();
+        successEffect.play();
         setMatchedNumber((prev) => prev + 2);
         setCards((prevCards) =>
           prevCards.map((card) => {
@@ -31,6 +41,8 @@ const Dashboard = ({ gameLevel, resetGameLevel }) => {
         resetTurn();
       } else {
         setTimeout(resetTurn, 1000);
+        clickEffect.pause();
+        failEffect.play();
       }
     }
     // check if the game finished
@@ -72,42 +84,48 @@ const Dashboard = ({ gameLevel, resetGameLevel }) => {
 
   // handle click function
   const handleChoice = (card) => {
-    console.log(card);
+    clickEffect.currentTime = 0;
+    clickEffect.play();
     firstCard ? setSecondCard(card) : setFirstCard(card);
   };
 
   return (
     <>
-      {/* {startGame ? ( */}
-      <>
-        <section className="cards-wrapper flex-1">
-          {cards &&
-            cards.map((card) => (
-              <Card
-                key={card.id}
-                card={card}
-                choiceHandler={handleChoice}
-                flipped={
-                  card === firstCard || card === secondCard || card.matched
-                }
-                disabled={disabled}
-              />
-            ))}
-        </section>
-        <Sidebar
-          turns={turns}
-          restartGame={restartGame}
-          didYouWin={gameFinished}
-          matchedNumber={matchedNumber}
-          remainingNumber={cards.length - matchedNumber}
-          gameLevel={gameLevel}
-          resetGameLevel={resetGameLevel}
-        />
-      </>
-      {gameFinished && <Confetti width={window.innerWidth} height={window.innerHeight}/>}
-      {/* ) : ( */}
-      {/* <Intro /> */}
-      {/* )} */}
+      <Header
+        turns={turns}
+        restartGame={restartGame}
+        didYouWin={gameFinished}
+        matchedNumber={matchedNumber}
+        remainingNumber={cards.length - matchedNumber}
+        gameLevel={gameLevel}
+        resetGameLevel={resetGameLevel}
+      />
+      <section className={`cards-wrapper flex-1 ${cardsWrapperClass}`}>
+        {cards &&
+          cards.map((card) => (
+            <Card
+              key={card.id}
+              card={card}
+              choiceHandler={handleChoice}
+              flipped={
+                card === firstCard || card === secondCard || card.matched
+              }
+              disabled={disabled}
+            />
+          ))}
+      </section>
+      <Sidebar
+        turns={turns}
+        restartGame={restartGame}
+        didYouWin={gameFinished}
+        matchedNumber={matchedNumber}
+        remainingNumber={cards.length - matchedNumber}
+        gameLevel={gameLevel}
+        resetGameLevel={resetGameLevel}
+      />
+      {gameFinished && (
+        <Confetti width={window.innerWidth} height={window.innerHeight} />
+      )}
     </>
   );
 };

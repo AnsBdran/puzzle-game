@@ -1,37 +1,33 @@
-import cardImgs from "../cards";
+import cardImgs from '../cards';
 
 export const shuffleCards = (gameLevel) => {
-  const cardsNumber = calcCardsNumber(gameLevel);
+  const { cardsNumber } = getGameInfo(gameLevel);
   const cards = cardImgs.slice(0, cardsNumber);
-  console.log("cards number", cardsNumber, cards);
+  console.log('cards number', cardsNumber, cards);
   return [...cards, ...cards]
     .sort(() => Math.random() - 0.5)
     .map((card) => ({ id: Math.random(), ...card, matched: false }));
 };
 
-// export const waiit = () => {
-//   setTimeout(() => {
-//     console.log("waiitedd");
-//   }, 1500);
-// };
-
-// export const waait = (time) =>
-//   new Promise((resolve) => setTimeout(resolve, time));
-
-export const calcCardsNumber = (gameLevel) => {
+export const getGameInfo = (gameLevel) => {
   let cardsNumber;
+  let wrapperClass;
   switch (gameLevel) {
-    case "easy":
-      cardsNumber = 5;
+    case 'easy':
+      cardsNumber = 6;
+      wrapperClass = 'easy';
       break;
-    case "intermediate":
-      cardsNumber = 7;
+    case 'intermediate':
+      cardsNumber = 8;
+      wrapperClass = 'intermediate';
       break;
-    case "hard":
+    case 'hard':
       cardsNumber = 10;
+      wrapperClass = 'hard';
       break;
     default:
-      cardsNumber = 7;
+      cardsNumber = 6;
+      wrapperClass = 'easy';
   }
-  return cardsNumber;
+  return { cardsNumber, wrapperClass };
 };
