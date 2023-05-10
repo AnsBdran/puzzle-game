@@ -40,9 +40,10 @@ const Dashboard = ({ gameLevel, resetGameLevel }) => {
         );
         resetTurn();
       } else {
-        setTimeout(resetTurn, 1000);
-        clickEffect.pause();
-        failEffect.play();
+        setTimeout(() => {
+          resetTurn();
+          failEffect.play();
+        }, 1000);
       }
     }
     // check if the game finished
