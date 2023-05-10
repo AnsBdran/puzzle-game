@@ -21,8 +21,8 @@ const Header = ({
           <p>Remaining cards: {remainingNumber}</p>
         </div>
         <div className="flex flex-col gap-2">
-          <Button onClick={restartGame}>restart</Button>
-          <Button onClick={resetGameLevel}>Reset game level</Button>
+          <Button onClick={restartGame}>Restart</Button>
+          <Button onClick={resetGameLevel}>Reset</Button>
         </div>
       </div>
     </header>
